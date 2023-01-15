@@ -7,19 +7,26 @@ import EmployeesAddForm from '../employees-add-form/employees-add-form';
 import './app.css';
 
 function App() {
-  return (
-    <div className="app">
-        <AppInfo />
+    const data = [
+        { name: 'Jonh', salary: 800, increase: false, id: 1 },
+        { name: 'Alex', salary: 1800, increase: true, id: 2 },
+        { name: 'Max', salary: 2800, increase: false, id: 3 },
+    ];
+    // key prop нужен что реакт понял что не надо менять весь элемент
 
-        <div className="search-panel">
-            <SearchPanel/>
-            <AppFilter/>
+    return (
+        <div className="app">
+            <AppInfo />
+
+            <div className="search-panel">
+                <SearchPanel />
+                <AppFilter />
+            </div>
+
+            <EmployeesList data={data} />
+            <EmployeesAddForm />
         </div>
-        
-        <EmployeesList/>
-        <EmployeesAddForm/>
-    </div>
-  );
+    );
 }
 
 export default App;
