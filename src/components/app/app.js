@@ -36,6 +36,7 @@ class App extends Component {
                 },
             ],
             term: '',
+            filter: 'all',
         };
         this.maxId = 4;
     }
@@ -114,12 +115,27 @@ class App extends Component {
         this.setState({ term });
     };
 
+    filterPost = (items, filter) => {
+        switch (filter) {
+            case 'like':
+                return items.filter((item) => item.like);
+            case 'moreThan1000':
+                return items.filter((item) => item.salary > 1000);
+            default:
+                return items;
+        }
+    };
+
+    onFilterSelect = (filter) => {
+        this.setState({ filter });
+    };
+
     // key prop нужен что реакт понял что не надо менять весь элемент
     render() {
-        const { data, term } = this.state;
+        const { data, term, filter } = this.state;
         const employees = data.length;
         const increased = data.filter((item) => item.increase).length;
-        const visibleData = this.searchEmp(data, term);
+        const visibleData = this.filterPost(this.searchEmp(data, term), filter); // принимает 2 функции и плюс массив и филтер
 
         return (
             <div className="app">
@@ -127,7 +143,10 @@ class App extends Component {
 
                 <div className="search-panel">
                     <SearchPanel onUpdateSearch={this.onUpdateSearch} />
-                    <AppFilter />
+                    <AppFilter
+                        filter={filter}
+                        onFilterSelect={this.onFilterSelect}
+                    />
                 </div>
 
                 <EmployeesList
